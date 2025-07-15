@@ -1,5 +1,11 @@
 # CigoModuloPago - Instrucciones de Instalación y Uso
 Nota a los jueces, si no pueden acceder al dominio es porque tengo offlin el servicio, mándenme un correo para habilitarlo y mantenerlo arriba 3 días continuos, debido a que es mi servidor de desarrollo y sigo trabajando en otros modulos. 
+
+Para descargar la wallet sporran de manejo de identidad: https://github.com/KILT-Foundation/sporran-extension/blob/main/docs/external.md
+**La blockchain de KILT usa BIP39 así que cualquier seed phrase de Ethereum, L2s, o Bitcoin, puede usar la misma seed phrase para traer a esta wallet. Por el momento no es multicadena, apesar que Polkadot si acepta varios tokens**
+
+**Sería divertido que Bitso desplegará su contrato de mxnb en Polkadot, ya que se aceptan Smart Contracts**
+
 ¡Bienvenido! Este proyecto está listo para ser probado y evaluado fácilmente. Sigue estos pasos para instalar y correr todo el sistema en minutos.
 
 ---
