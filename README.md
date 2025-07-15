@@ -1,5 +1,5 @@
 # CigoModuloPago - Instrucciones de Instalación y Uso
-
+Nota a los jueces, si no pueden acceder al dominio es porque tengo offlin el servicio, mándenme un correo para habilitarlo y mantenerlo arriba 3 días continuos, debido a que es mi servidor de desarrollo y sigo trabajando en otros modulos. 
 ¡Bienvenido! Este proyecto está listo para ser probado y evaluado fácilmente. Sigue estos pasos para instalar y correr todo el sistema en minutos.
 
 ---
