@@ -17,7 +17,7 @@
 
 1. **Clona el repositorio:**
    ```bash
-   git clone <URL_DEL_REPO>
+   git clone https://github.com/cryptohumano/PerantoBitsoHack
    cd CigoModuloPago
    ```
 
@@ -106,4 +106,4 @@ Si quieres trabajar en modo desarrollo (hot reload, logs detallados):
 
 ## 📫 Soporte
 
-Si tienes dudas, revisa los comentarios en el código y este README. ¡Suerte en el hackathon! 
+Si tienes dudas, revisa los comentarios en el código y este README. edoga.salinas@gmail.com 
