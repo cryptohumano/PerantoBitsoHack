@@ -1,0 +1,76 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+# Prisma generated files
+/src/generated/prisma
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor swap files
+*.swp
+*.swo
+
+# Yarn Berry cache
+.yarn/cache/
+
+# Test coverage
+coverage/
+
+# Build output (si aplica)
+dist/
+build/
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+backend/dist/
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+backend/.turbo/
+
+# Env files
+backend/.env
+backend/.env.local
+frontend/.env
+frontend/.env.local
+
+# Database
+*.sqlite
+*.db
+pgdata/
+postgres-data/
+
+# Logs
+*.log
+
+# IDE/editor
+.vscode/
+.idea/
+.DS_Store
+
+# Sistema
+*.swp
+*.swo
+
+# No subir archivos de pruebas o mocks
+test_*.json
+
+# No subir modulo-pago ni markdowns innecesarios
+modulo-pago/
+ARQUITECTURA_CTYPEHUB.md
+didsignio.md
+KILT_TRANSFERS.md
+FLUJO_CONVERSION_README.md
+SPORRAN_MIGRATION.md
+UserStoriesREADME.md
+README_iteracion120725.md

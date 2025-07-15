@@ -1,0 +1,319 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  did           String        @unique
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  roles         UserRole[]
+  sessions      Session[]
+  // Relaciones explícitas
+  claims        Claim[]       @relation("OwnerClaims")
+  attestations  Attestation[] @relation("AttesterAttestations")
+  notifications Notification[]
+  createdCtypes CType[]       @relation("CreatorCTypes")
+  identityRequests IdentityRequest[]
+  paymentEvents PaymentEvent[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+}
+
+model UserRole {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  role      Role
+  createdAt DateTime @default(now())
+
+  @@unique([userId, role])
+}
+
+enum Role {
+  USER
+  ATTESTER
+  ADMIN
+}
+
+enum CTypeStatus {
+  DRAFT
+  ACTIVE
+  REVOKED
+}
+
+model CType {
+  id              String                @id @default(uuid())
+  name            String
+  schema          Json
+  ctypeHash       String                @unique
+  ipfsCid         String?
+  network         KiltNetwork
+  status          CTypeStatus           @default(DRAFT)
+  blockNumber     Int?
+  blockHash       String?
+  transactionHash String?
+  creator         User                  @relation("CreatorCTypes", fields: [creatorId], references: [id])
+  creatorId       String
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  isPublic        Boolean               @default(true)
+  // Relaciones explícitas
+  claims          Claim[]
+  attestations    Attestation[]
+  rolePermissions CTypeRolePermission[]
+  organization    Organization?         @relation(fields: [organizationId], references: [id])
+  organizationId  String?
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REVOKED
+  CANCELLED
+}
+
+model Claim {
+  id              String      @id @default(uuid())
+  owner           User        @relation("OwnerClaims", fields: [ownerId], references: [id])
+  ownerId         String
+  cType           CType       @relation(fields: [cTypeId], references: [id])
+  cTypeId         String
+  contents        Json
+  status          ClaimStatus @default(PENDING)
+  network         KiltNetwork
+  blockNumber     Int?
+  blockHash       String?
+  transactionHash String?
+  ipfsCid         String?     // Para documentos subidos
+  rejectionReason String?     // Motivo de rechazo
+  attestedAt      DateTime?   // Fecha de atestación
+  revokedAt       DateTime?   // Fecha de revocación
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  attestations    Attestation[]
+  
+  @@index([status])
+  @@index([ownerId])
+  @@index([cTypeId])
+  @@index([createdAt])
+}
+
+model Attestation {
+  id         String    @id @default(uuid())
+  claim      Claim     @relation(fields: [claimId], references: [id])
+  claimId    String
+  attester   User      @relation("AttesterAttestations", fields: [attesterId], references: [id])
+  attesterId String
+  ctype      CType     @relation(fields: [ctypeId], references: [id])
+  ctypeId    String
+  revoked    Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model CTypeRolePermission {
+  id      String @id @default(uuid())
+  cType   CType  @relation(fields: [cTypeId], references: [id], onDelete: Cascade)
+  cTypeId String
+  role    Role
+
+  @@unique([cTypeId, role])
+}
+
+model Organization {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  cTypes      CType[]
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  data      Json?
+  createdAt DateTime         @default(now())
+}
+
+enum NotificationType {
+  ROLE_CHANGE
+  CLAIM_SUBMITTED
+  CLAIM_APPROVED
+  CLAIM_REJECTED
+  CLAIM_CANCELLED
+  PAYMENT_RECEIVED
+  DID_CREATED
+  CREDENTIAL_ISSUED
+}
+
+// Nuevos modelos para el sistema de pagos y onboarding
+model IdentityRequest {
+  id              String                @id @default(uuid())
+  user            User?                 @relation(fields: [userId], references: [id])
+  userId          String?
+  paymentType     PaymentType
+  bitsoPaymentId  String?               @unique // ID único del pago en Bitso
+  amount          Decimal               @db.Decimal(10, 2)
+  currency        String                @default("MXN")
+  paymentStatus   PaymentStatus         @default(PENDING) // Estado del pago
+  didCreated      Boolean               @default(false)
+  credentialIssued Boolean              @default(false)
+  kiltAddress     String?               // Dirección KILT del usuario
+  substrateAddress String?              // Dirección Substrate del usuario
+  clabe           String?               // CLABE que recibe el pago
+  beneficiary     String?               // Organización que recibe el pago
+  expirationDate  DateTime?             // Fecha de expiración del pago
+  kiltTransactionHash String?           // Hash de la transacción KILT enviada
+  kiltAmount      Decimal?              @db.Decimal(10, 6) // Cantidad de KILT enviada
+  kiltBlockHash    String?              // Hash del bloque donde se incluyó la transacción
+  kiltBlockNumber  Int?                 // Número del bloque
+  kiltNetwork      KiltNetwork?         // Red KILT donde se envió (SPIRITNET o PEREGRINE)
+  kiltSentAt       DateTime?            // Fecha y hora cuando se envió KILT
+  requestedAt     DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  payment         PaymentEvent?         @relation("IdentityRequestPayment")
+  
+  @@index([paymentStatus])
+  @@index([userId])
+  @@index([requestedAt])
+  @@index([bitsoPaymentId])
+}
+
+model PaymentEvent {
+  id                String        @id @default(uuid())
+  type              PaymentType
+  amount            Decimal       @db.Decimal(10, 2)
+  currency          String        @default("MXN")
+  userId            String?
+  user              User?         @relation(fields: [userId], references: [id])
+  paymentReference  String        @unique
+  status            PaymentStatus @default(PENDING)
+  detectedAt        DateTime      @default(now())
+  confirmedAt       DateTime?
+  transactionHash   String?       // Hash de la transacción blockchain
+  network           String?       // Red donde se procesó (SPEI, Arbitrum, etc.)
+  metadata          Json?         // Datos adicionales del pago
+  identityRequestId String?       @unique
+  identityRequest   IdentityRequest? @relation("IdentityRequestPayment", fields: [identityRequestId], references: [id])
+
+  @@index([status])
+  @@index([userId])
+  @@index([detectedAt])
+  @@index([paymentReference])
+}
+
+// Si el modelo Payment no es necesario, lo eliminamos. Si sí, aquí una versión limpia:
+// model Payment {
+//   id              String        @id @default(uuid())
+//   paymentId       String        @unique
+//   method          PaymentMethod
+//   amount          Decimal       @db.Decimal(10, 2)
+//   kiltAddress     String
+//   userEmail       String?
+//   status          PaymentStatus @default(PENDING)
+//   clabe           String?
+//   mxnbAddress     String?
+//   reference       String
+//   bitsoAccountId  String?
+//   createdAt       DateTime      @default(now())
+//   completedAt     DateTime?
+//   @@index([paymentId])
+//   @@index([status])
+//   @@index([kiltAddress])
+//   @@index([createdAt])
+// }
+
+model OnboardingStatus {
+  id                String    @id @default(uuid())
+  requestId         String    @unique
+  paymentStatus     PaymentStatus @default(PENDING)
+  didStatus         DidStatus @default(NOT_CREATED)
+  credentialStatus  CredentialStatus @default(NOT_ISSUED)
+  kiltSent          Boolean   @default(false)
+  kiltAmount        Decimal   @db.Decimal(10, 6) @default(0)
+  lastUpdate        DateTime  @default(now())
+  
+  @@index([requestId])
+}
+
+// Enums para el sistema de pagos
+enum PaymentType {
+  SPEI
+  MXNB
+}
+
+enum PaymentMethod {
+  SPEI
+  MXNB
+}
+
+enum PaymentStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+  CANCELLED
+}
+
+enum IdentityRequestStatus {
+  PENDING
+  PAID
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum DidStatus {
+  NOT_CREATED
+  CREATED
+  FAILED
+}
+
+enum CredentialStatus {
+  NOT_ISSUED
+  ISSUED
+  FAILED
+}
+
+enum KiltNetwork {
+  SPIRITNET
+  PEREGRINE
+}
+
+// Modelo para eventos de webhook de Bitso
+model WebhookEvent {
+  id           String   @id @default(uuid())
+  eventType    String   // 'payment_completed', 'payment_expired', 'payment_rejected', 'funding', etc.
+  eventId      String   @unique // payment_id de Bitso o fid/wid
+  payload      Json     // Payload completo del evento
+  receivedAt   DateTime @default(now())
+  processed    Boolean  @default(false)
+  processedAt  DateTime?
+  errorMessage String?
+  ipAddress    String
+  userAgent    String?
+
+  @@index([eventType])
+  @@index([processed])
+  @@index([receivedAt])
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "5d04e33c-f1de-484b-9d9b-2e83c6797b88",
+    "title": "Identidad Legal",
+    "issuer": "Gobierno de México",
+    "network": "KILT",
+    "required": ["CURP", "RFC", "INE"]
+  },
+  {
+    "id": "caff57f6-a515-4616-8149-9cdeeda35312",
+    "title": "Título Profesional",
+    "issuer": "Universidad Nacional Autónoma de México",
+    "network": "KILT",
+    "required": ["Cédula profesional", "Acta de nacimiento"]
+  },
+  {
+    "id": "36a34f90-ec32-40aa-b69b-1684c5b24d5f",
+    "title": "Certificación Profesional",
+    "issuer": "CONOCER",
+    "network": "KILT",
+    "required": ["Documento de identidad", "Comprobante de estudios"]
+  },
+  {
+    "id": "7eaf1058-d4a9-4094-ad26-3536a136c5c8",
+    "title": "Licencia de Conducir",
+    "issuer": "Secretaría de Movilidad",
+    "network": "KILT",
+    "required": ["INE", "Comprobante de domicilio", "Examen médico"]
+  }
+] 

@@ -1,0 +1,80 @@
+{
+  "@context": "https://identity.foundation/.well-known/did-configuration/v1",
+  "linked_dids": [
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://identity.foundation/.well-known/did-configuration/v1"
+      ],
+      "issuer": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv",
+      "issuanceDate": "2025-06-20T08:27:22.939Z",
+      "expirationDate": "2030-06-19T08:27:22.939Z",
+      "type": [
+        "VerifiableCredential",
+        "DomainLinkageCredential",
+        "KiltCredential2020"
+      ],
+      "credentialSubject": {
+        "origin": "https://grizzly-precious-largely.ngrok-free.app",
+        "id": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv",
+        "rootHash": "0xb7e372223e2bc95ed8e20b9b9acc1916d37ac44fff4281164754230d419a3111"
+      },
+      "proof": {
+        "type": "KILTSelfSigned2020",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv#0xf80f43ae513372fbed01f23850fd21cff239461d44804910429e62786434f3d6",
+        "signature": "0xe60eeb7727931b7ef5c3dd670adaf91dcb90bcf7972709bf45189fa0bf20571a860c168a0e3ebde43357dacb5bb37e249a9fee92640008f7f4e90a7b5b87918c"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://identity.foundation/.well-known/did-configuration/v1"
+      ],
+      "issuer": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv",
+      "issuanceDate": "2025-06-20T08:27:22.939Z",
+      "expirationDate": "2030-06-19T08:27:22.939Z",
+      "type": [
+        "VerifiableCredential",
+        "DomainLinkageCredential",
+        "KiltCredential2020"
+      ],
+      "credentialSubject": {
+        "origin": "http://localhost:3000",
+        "id": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv",
+        "rootHash": "0x5bb0c242616a40eebbef62885f4fe676ce2517fe443a7f100a36311de6cd1346"
+      },
+      "proof": {
+        "type": "KILTSelfSigned2020",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv#0xf80f43ae513372fbed01f23850fd21cff239461d44804910429e62786434f3d6",
+        "signature": "0xca86acfbc3b9e19e126c2498713d89d72baa524575489f3d8dd48da26bdbb1064d68555d38931dc173f7c94aa59d1e7d40eb7d7a5720d8b1619ab16cbfda0f86"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://identity.foundation/.well-known/did-configuration/v1"
+      ],
+      "issuer": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv",
+      "issuanceDate": "2025-06-20T08:27:22.939Z",
+      "expirationDate": "2030-06-19T08:27:22.939Z",
+      "type": [
+        "VerifiableCredential",
+        "DomainLinkageCredential",
+        "KiltCredential2020"
+      ],
+      "credentialSubject": {
+        "origin": "http://192.168.100.102:3000",
+        "id": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv",
+        "rootHash": "0x6842af8c4c06bd9e19269180a4c9d038f2117e45f410cec86184437af95ba6d7"
+      },
+      "proof": {
+        "type": "KILTSelfSigned2020",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:kilt:4pCaJEa3oesmxtxff6sgiEgrY4ngqnE8FeTPkPesX7PnUzAv#0xf80f43ae513372fbed01f23850fd21cff239461d44804910429e62786434f3d6",
+        "signature": "0xd4e26525c4444087e360531878fff4bfdd88bfc418ae2e752dc364b6fb46b350bc72f082e88f588ca2b93129a352ad1f3ae099a8fc62bc479924b48db3de598d"
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+backend/dist/
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+backend/.turbo/
+
+# Env files
+backend/.env
+backend/.env.local
+frontend/.env
+frontend/.env.local
+
+# Database
+*.sqlite
+*.db
+pgdata/
+postgres-data/
+
+# Logs
+*.log
+
+# IDE/editor
+.vscode/
+.idea/
+.DS_Store
+
+# Sistema
+*.swp
+*.swo
+
+# No subir archivos de pruebas o mocks
+test_*.json
+
+# No subir modulo-pago ni markdowns innecesarios
+modulo-pago/
+ARQUITECTURA_CTYPEHUB.md
+didsignio.md
+KILT_TRANSFERS.md
+FLUJO_CONVERSION_README.md
+SPORRAN_MIGRATION.md
+UserStoriesREADME.md
+README_iteracion120725.md
